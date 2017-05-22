@@ -5,6 +5,7 @@
 
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 <body>
@@ -28,7 +29,15 @@
 	  </div>
 	  <main class="mdl-layout__content">
 	    <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
-	      <div class="page-content"><!-- Your content goes here --></div>
+	      <div class="page-content">
+			<div class="mdl-grid">
+			  <div class="mdl-cell mdl-cell--2-col">
+			  	<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  					Connect your Google Account
+				</button>
+			  </div>
+			</div>
+	      </div>
 	    </section>
 	    <section class="mdl-layout__tab-panel" id="fixed-tab-2">
 	      <div class="page-content"><!-- Your content goes here --></div>
