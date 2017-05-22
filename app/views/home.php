@@ -32,9 +32,11 @@
 	      <div class="page-content">
 			<div class="mdl-grid">
 			  <div class="mdl-cell mdl-cell--2-col">
-			  	<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-  					Connect your Google Account
-				</button>
+			  	<a href="<?=$authUrl?>">
+			  		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  						Connect your Google Account
+					</button>
+				</a>
 			  </div>
 			</div>
 	      </div>

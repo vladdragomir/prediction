@@ -1,8 +1,12 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require __DIR__ . '/vendor/autoload.php';
 
-function get_base_url() {
+function getBaseUrl() {
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
         $base_url = "https://" . $_SERVER['HTTP_HOST'];
     } else {
@@ -14,10 +18,64 @@ function get_base_url() {
     return $base_url;
 }
 
+function getOAuthCredentialsFile() {
+  // oauth2 creds
+  $oauth_creds = 'config/oauth-credentials.json';
+
+  if (file_exists($oauth_creds)) {
+    return $oauth_creds;
+  }
+
+  return false;
+}
+
 Flight::set('flight.views.path', 'app/views');
 
-Flight::route('/', function(){
-  Flight::render('home.php', []);
+Flight::route('/', function() {
+	if (!$oauth_credentials = getOAuthCredentialsFile()) {
+	  echo 'no file';
+	  return;
+	}
+
+  	$client = new Google_Client();
+	$client->setAuthConfig($oauth_credentials);
+	$client->setRedirectUri(getBaseUrl());
+	$client->addScope("https://www.googleapis.com/auth/prediction");
+	$client->addScope("https://www.googleapis.com/auth/devstorage.full_control");
+	$client->addScope("https://www.googleapis.com/auth/devstorage.read_write");
+
+	$authUrl = $client->createAuthUrl();
+
+  	Flight::render('home.php', [
+  		'authUrl' => $authUrl
+  	]);
+});
+
+Flight::route('/connect', function() {
+	if (!$oauth_credentials = getOAuthCredentialsFile()) {
+	  echo 'no file';
+	  return;
+	}
+
+  	$client = new Google_Client();
+	$client->setAuthConfig($oauth_credentials);
+	$client->setRedirectUri(getBaseUrl());
+	$client->addScope("https://www.googleapis.com/auth/prediction");
+	$client->addScope("https://www.googleapis.com/auth/devstorage.full_control");
+	$client->addScope("https://www.googleapis.com/auth/devstorage.read_write");
+
+	$service = new Google_Service_Prediction($client);
+	$project = 'velvety-height-156418';
+
+	if (isset($_GET['code'])) {
+	  $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+	  $client->setAccessToken($token);
+	  // store in the session also
+	  $_SESSION['prediction_token'] = $token;
+	  // redirect back to the example
+	  header('Location: ' . filter_var(getBaseUrl(), FILTER_SANITIZE_URL));
+	}
+
 });
 
 Flight::start();
