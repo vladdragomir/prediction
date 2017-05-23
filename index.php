@@ -4,6 +4,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+
 require __DIR__ . '/vendor/autoload.php';
 
 function getBaseUrl() {
@@ -76,6 +78,12 @@ Flight::route('/connect', function() {
 	  header('Location: ' . filter_var(getBaseUrl(), FILTER_SANITIZE_URL));
 	}
 
+});
+
+Flight::route('/logout', function() {
+	unset($_SESSION['upload_token']);
+
+	header('Location: ' . filter_var(getBaseUrl(), FILTER_SANITIZE_URL));
 });
 
 Flight::start();

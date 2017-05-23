@@ -19,7 +19,7 @@
 	      <div class="mdl-layout-spacer"></div>
 	      <nav class="mdl-navigation">
 	      	<?php
-	      	if (isset($_SESSION['prediction_token']) && !empty($_SESSION['prediction_token'])) :
+	      	if (isset($_SESSION['prediction_token'])) :
 	      	?>
 	        <a class="mdl-navigation__link" href="/logout">Log Out</a>
 	        <?php
