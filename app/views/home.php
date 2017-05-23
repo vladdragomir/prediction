@@ -16,12 +16,26 @@
 	    <div class="mdl-layout__header-row">
 	      <!-- Title -->
 	      <span class="mdl-layout-title">Prediction</span>
+	      <div class="mdl-layout-spacer"></div>
+	      <nav class="mdl-navigation">
+	      	<?php
+	      	if (isset($_SESSION['prediction_token']) && !empty($_SESSION['prediction_token'])) :
+	      	?>
+	        <a class="mdl-navigation__link" href="/logout">Log Out</a>
+	        <?php
+	        else:
+	        ?>
+	    	<a class="mdl-navigation__link" href="<?=$authUrl?>">Connect your Google Account</a>
+		    <?php
+		    endif;
+		    ?>
+	      </nav>
 	    </div>
 	    <!-- Tabs -->
 	    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-	      <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Tab 1</a>
-	      <a href="#fixed-tab-2" class="mdl-layout__tab">Tab 2</a>
-	      <a href="#fixed-tab-3" class="mdl-layout__tab">Tab 3</a>
+	      <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Connect</a>
+	      <a href="#fixed-tab-2" class="mdl-layout__tab">Train</a>
+	      <a href="#fixed-tab-3" class="mdl-layout__tab">Predict</a>
 	    </div>
 	  </header>
 	  <div class="mdl-layout__drawer">
@@ -32,11 +46,11 @@
 	      <div class="page-content">
 			<div class="mdl-grid">
 			  <div class="mdl-cell mdl-cell--2-col">
-			  	<a href="<?=$authUrl?>">
-			  		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-  						Connect your Google Account
-					</button>
-				</a>
+			  </div>
+			  <div class="mdl-cell mdl-cell--8-col">
+			  	<h1 class="mdl-typography--text-center">Please connect your Google Account</h1>
+			  </div>
+			  <div class="mdl-cell mdl-cell--2-col">
 			  </div>
 			</div>
 	      </div>
