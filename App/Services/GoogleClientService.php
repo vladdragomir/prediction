@@ -2,7 +2,7 @@
 
 namespace Prediction\Services;
 
-use UrlService;
+use Google_Client;
 
 class GoogleClientService {
 	public function getGoogleClientInstance() : Google_Client {

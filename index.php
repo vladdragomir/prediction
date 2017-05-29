@@ -6,13 +6,13 @@ error_reporting(E_ALL);
 
 session_start();
 
+require dirname(__DIR__) . '/vendor/autoload.php';
+
 define('PROJECT_ID', 'velvety-height-156418');
 define('OAUTH_CREDENTIALS_FILE_PATH', realpath('config/oauth-credentials.json'));
 
-require __DIR__ . '/vendor/autoload.php';
-
-use Prediction\GoogleClientService;
-use Prediction\UrlService;
+use Prediction\Services\GoogleClientService;
+use Prediction\Services\UrlService;
 
 Flight::set('flight.views.path', 'App/views');
 
