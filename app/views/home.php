@@ -56,7 +56,20 @@
 	      </div>
 	    </section>
 	    <section class="mdl-layout__tab-panel" id="fixed-tab-2">
-	      <div class="page-content"><!-- Your content goes here --></div>
+	      <div class="page-content">
+	      	<div class="mdl-cell mdl-cell--2-col">
+			  </div>
+			  <div class="mdl-cell mdl-cell--8-col">
+			  	<form action="/train" method="post">
+				  <div class="mdl-textfield mdl-js-textfield">
+				    <input class="mdl-textfield__input" type="text" id="fileName" name="fileName">
+				    <label class="mdl-textfield__label" for="fileName">Enter the file name</label>
+				  </div>
+				</form>
+			  </div>
+			  <div class="mdl-cell mdl-cell--2-col">
+			  </div>
+	      </div>
 	    </section>
 	    <section class="mdl-layout__tab-panel" id="fixed-tab-3">
 	      <div class="page-content"><!-- Your content goes here --></div>

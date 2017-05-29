@@ -6,128 +6,65 @@ error_reporting(E_ALL);
 
 session_start();
 
+define('PROJECT_ID', 'velvety-height-156418');
+define('OAUTH_CREDENTIALS_FILE_PATH', realpath('config/oauth-credentials.json'));
+
 require __DIR__ . '/vendor/autoload.php';
 
-function getBaseUrl() {
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
-        $base_url = "https://" . $_SERVER['HTTP_HOST'];
-    } else {
-        $base_url = "http://" . $_SERVER['HTTP_HOST'];
-    }
+use Prediction\GoogleClientService;
+use Prediction\UrlService;
 
-    $base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
-
-    return $base_url;
-}
-
-function getOAuthCredentialsFile() {
-  // oauth2 creds
-  $oauth_creds = 'config/oauth-credentials.json';
-
-  if (file_exists($oauth_creds)) {
-    return $oauth_creds;
-  }
-
-  return false;
-}
-
-Flight::set('flight.views.path', 'app/views');
+Flight::set('flight.views.path', 'App/views');
 
 Flight::route('/', function() {
-	if (!$oauth_credentials = getOAuthCredentialsFile()) {
-	  echo 'no file';
-	  return;
-	}
-
-  	$client = new Google_Client();
-	$client->setAuthConfig($oauth_credentials);
-	$client->setRedirectUri(getBaseUrl());
-	$client->addScope("https://www.googleapis.com/auth/prediction");
-	$client->addScope("https://www.googleapis.com/auth/devstorage.full_control");
-	$client->addScope("https://www.googleapis.com/auth/devstorage.read_write");
-
-	$authUrl = $client->createAuthUrl();
+  	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
 
   	Flight::render('home.php', [
-  		'authUrl' => $authUrl
+  		'authUrl' => $googleClient->createAuthUrl()
   	]);
 });
 
 Flight::route('/connect', function() {
-	if (!$oauth_credentials = getOAuthCredentialsFile()) {
-	  echo 'no file';
-	  return;
-	}
-
-  	$client = new Google_Client();
-	$client->setAuthConfig($oauth_credentials);
-	$client->setRedirectUri(getBaseUrl());
-	$client->addScope("https://www.googleapis.com/auth/prediction");
-	$client->addScope("https://www.googleapis.com/auth/devstorage.full_control");
-	$client->addScope("https://www.googleapis.com/auth/devstorage.read_write");
-
-	$service = new Google_Service_Prediction($client);
-	$project = 'velvety-height-156418';
+  	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
+	$service = new Google_Service_Prediction($googleClient);
 
 	if (isset($_GET['code'])) {
-	  $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-	  $client->setAccessToken($token);
-	  // store in the session also
-	  $_SESSION['prediction_token'] = $token;
-	  // redirect back to the example
-	  header('Location: ' . filter_var(getBaseUrl(), FILTER_SANITIZE_URL));
+		$token = $googleClient->fetchAccessTokenWithAuthCode($_GET['code']);
+		$googleClient->setAccessToken($token);
+		$_SESSION['prediction_token'] = $token;
 	}
 
+	(new UrlService())->redirectToHome();
 });
 
 Flight::route('/logout', function() {
 	unset($_SESSION['upload_token']);
 
-	header('Location: ' . filter_var(getBaseUrl(), FILTER_SANITIZE_URL));
+	(new UrlService())->redirectToHome();
 });
 
 Flight::route('/train', function() {
-	if (!$oauth_credentials = getOAuthCredentialsFile()) {
-	  echo 'no file';
-	  return;
-	}
+  	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
+	$googlePredictionInsert = new Google_Service_Prediction_Insert($googleClient);
 
-  	$client = new Google_Client();
-	$client->setAuthConfig($oauth_credentials);
-	$client->setRedirectUri(getBaseUrl());
-	$client->addScope("https://www.googleapis.com/auth/prediction");
-	$client->addScope("https://www.googleapis.com/auth/devstorage.full_control");
-	$client->addScope("https://www.googleapis.com/auth/devstorage.read_write");
+	$googlePredictionInsert->setId(PROJECT_ID);
+	$googlePredictionInsert->setStorageDataLocation($_POST['fileName']); // A file in Cloud Storage, must be upload first
+	$result = $service->trainedmodels->insert(PROJECT_ID, $googlePredictionInsert);
 
-	$insert = new Google_Service_Prediction_Insert($client);
-
-	  $insert->setId('velvety-height-156418');
-	  $insert->setStorageDataLocation('training_data_set/training_data_set.csv'); // A file in Cloud Storage, must be upload first
-	  $result = $service->trainedmodels->insert($project, $insert);
+	var_dump($result);
 });
 
 Flight::route('/predict', function() {
-	if (!$oauth_credentials = getOAuthCredentialsFile()) {
-	  echo 'no file';
-	  return;
-	}
-
-  	$client = new Google_Client();
-	$client->setAuthConfig($oauth_credentials);
-	$client->setRedirectUri(getBaseUrl());
-	$client->addScope("https://www.googleapis.com/auth/prediction");
-	$client->addScope("https://www.googleapis.com/auth/devstorage.full_control");
-	$client->addScope("https://www.googleapis.com/auth/devstorage.read_write");
-
-	$service = new Google_Service_Prediction($client);
+  	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
+	$googlePredictionService = new Google_Service_Prediction($googleClient);
 
 	$predictionText = 'free 4/10/2017 4:02:10, gb, 4/12/2017, 6, 0, en, 123, 0, 5, website, website, organic, -, -, free, /, 29, 1, 0, 0, 0, 0, 0, 0, 0, 0';
 	$predictionData = new Google_Service_Prediction_InputInput();
-	$predictionData->setCsvInstance(array($predictionText));
+	$predictionData->setCsvInstance([$predictionText]);
 
 	$input = new Google_Service_Prediction_Input();
 	$input->setInput($predictionData);
-	$hostedmodels = $service->trainedmodels->predict($project, 'velvety-height-156418', $input);
+	$hostedmodels = $googlePredictionService->trainedmodels->predict(PROJECT_ID, PROJECT_ID, $input);
 });
 
 Flight::start();
