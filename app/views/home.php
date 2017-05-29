@@ -71,7 +71,22 @@
 			    </div>
 			</section>
 			<section class="mdl-layout__tab-panel" id="fixed-tab-3">
-			  <div class="page-content"></div>
+			    <div class="page-content">
+					<div class="mdl-grid">
+						<div class="mdl-cell mdl-cell--4-col"></div>
+
+						<div class="mdl-cell mdl-cell--4-col">
+							<form action="/predict" method="post">
+								<div class="mdl-textfield mdl-js-textfield">
+									<input class="mdl-textfield__input" type="text" id="predictContent" name="predictContent">
+									<label class="mdl-textfield__label" for="predictContent">Predict this content</label>
+								</div>
+							</form>
+						</div>
+
+						<div class="mdl-cell mdl-cell--4-col"></div>
+					</div>
+			    </div>
 			</section>
 	  	</main>
 	</div>
