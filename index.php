@@ -26,7 +26,6 @@ Flight::route('/', function() {
 
 Flight::route('/connect', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
-	$service = new Google_Service_Prediction($googleClient);
 
 	if (isset($_GET['code'])) {
 		$token = $googleClient->fetchAccessTokenWithAuthCode($_GET['code']);
@@ -46,6 +45,7 @@ Flight::route('/logout', function() {
 Flight::route('/train', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
 	$googlePredictionInsert = new Google_Service_Prediction_Insert($googleClient);
+    $service = new Google_Service_Prediction($googleClient);
 
 	$googlePredictionInsert->setId(PROJECT_ID);
 	$googlePredictionInsert->setStorageDataLocation($_POST['fileName']); // A file in Cloud Storage, must be upload first
@@ -58,13 +58,15 @@ Flight::route('/predict', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
 	$googlePredictionService = new Google_Service_Prediction($googleClient);
 
-	$predictionText = 'free 4/10/2017 4:02:10, gb, 4/12/2017, 6, 0, en, 123, 0, 5, website, website, organic, -, -, free, /, 29, 1, 0, 0, 0, 0, 0, 0, 0, 0';
+	$predictionText = $_POST['predictContent'];
 	$predictionData = new Google_Service_Prediction_InputInput();
 	$predictionData->setCsvInstance([$predictionText]);
 
 	$input = new Google_Service_Prediction_Input();
 	$input->setInput($predictionData);
-	$hostedmodels = $googlePredictionService->trainedmodels->predict(PROJECT_ID, PROJECT_ID, $input);
+	$hostedModels = $googlePredictionService->trainedmodels->predict(PROJECT_ID, PROJECT_ID, $input);
+
+	var_dump($hostedModels);
 });
 
 Flight::start();
