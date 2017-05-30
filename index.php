@@ -19,21 +19,15 @@ Flight::set('flight.views.path', 'App/Views');
 Flight::route('/', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
 
+    if (isset($_GET['code'])) {
+        $token = $googleClient->fetchAccessTokenWithAuthCode($_GET['code']);
+        $googleClient->setAccessToken($token);
+        $_SESSION['prediction_token'] = $token;
+    }
+
   	Flight::render('template.php', [
   		'authUrl' => $googleClient->createAuthUrl()
   	]);
-});
-
-Flight::route('/connect', function() {
-  	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
-
-	if (isset($_GET['code'])) {
-		$token = $googleClient->fetchAccessTokenWithAuthCode($_GET['code']);
-		$googleClient->setAccessToken($token);
-		$_SESSION['prediction_token'] = $token;
-	}
-
-	(new UrlService())->redirectToHome();
 });
 
 Flight::route('/logout', function() {

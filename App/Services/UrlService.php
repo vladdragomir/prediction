@@ -17,5 +17,6 @@ class UrlService {
 
 	public function redirectToHome() {
 		header('Location: ' . filter_var($this->getBaseUrl(), FILTER_SANITIZE_URL));
+		exit;
 	}
 }
