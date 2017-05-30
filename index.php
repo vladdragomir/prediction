@@ -37,13 +37,14 @@ Flight::route('/connect', function() {
 });
 
 Flight::route('/logout', function() {
-	unset($_SESSION['upload_token']);
+	unset($_SESSION['prediction_token']);
 
 	(new UrlService())->redirectToHome();
 });
 
 Flight::route('/train', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
+  	$googleClient->setAccessToken($_SESSION['prediction_token']);
 	$googlePredictionInsert = new Google_Service_Prediction_Insert($googleClient);
     $service = new Google_Service_Prediction($googleClient);
 
@@ -56,6 +57,7 @@ Flight::route('/train', function() {
 
 Flight::route('/predict', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
+  	$googleClient->setAccessToken($_SESSION['prediction_token']);
 	$googlePredictionService = new Google_Service_Prediction($googleClient);
 
 	$predictionText = $_POST['predictContent'];
