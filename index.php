@@ -14,7 +14,7 @@ define('OAUTH_CREDENTIALS_FILE_PATH', realpath('config/oauth-credentials.json'))
 use Prediction\Services\GoogleClientService;
 use Prediction\Services\UrlService;
 
-Flight::set('flight.Views.path', 'App/Views');
+Flight::set('flight.views.path', 'App/Views');
 
 Flight::route('/', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
