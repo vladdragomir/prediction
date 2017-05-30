@@ -45,7 +45,18 @@
 					    <div class="mdl-cell mdl-cell--2-col"></div>
 
 					    <div class="mdl-cell mdl-cell--8-col">
-						    <h1 class="mdl-typography--text-center">Please connect your Google Account</h1>
+
+                            <?php
+                            if (isset($_SESSION['prediction_token'])) :
+                                ?>
+								<h1 class="mdl-typography--text-center">Go to "Train" tab</h1>
+                                <?php
+                            else:
+                                ?>
+								<h1 class="mdl-typography--text-center">Please connect your Google Account</h1>
+                                <?php
+                            endif;
+                            ?>
 					    </div>
 
 					    <div class="mdl-cell mdl-cell--2-col"></div>

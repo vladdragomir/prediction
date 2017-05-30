@@ -19,7 +19,7 @@ Flight::set('flight.views.path', 'App/Views');
 Flight::route('/', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
 
-    if (isset($_GET['code'])) {
+    if (isset($_GET['code']) && !isset($_SESSION['prediction_token'])) {
         $token = $googleClient->fetchAccessTokenWithAuthCode($_GET['code']);
         $googleClient->setAccessToken($token);
         $_SESSION['prediction_token'] = $token;
