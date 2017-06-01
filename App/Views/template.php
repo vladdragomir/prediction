@@ -66,7 +66,9 @@
 			<section class="mdl-layout__tab-panel" id="fixed-tab-2">
 			    <div class="page-content">
 				    <div class="mdl-grid">
-					    <div class="mdl-cell mdl-cell--4-col"></div>
+					    <div class="mdl-cell mdl-cell--4-col">
+							<p>Training status: loading</p>
+						</div>
 
 						<div class="mdl-cell mdl-cell--4-col">
 							<form action="/train" method="post">
@@ -75,6 +77,17 @@
 									<label class="mdl-textfield__label" for="fileName">Enter the file name</label>
 								</div>
 							</form>
+
+							<p>
+								<?php
+								if (isset($_SESSION['train_response'])) :
+								unset($_SESSION['train_response']);
+								?>
+									Training is in process.
+								<?php
+								endif;
+								?>
+							</p>
 						</div>
 
 						<div class="mdl-cell mdl-cell--4-col"></div>

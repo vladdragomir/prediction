@@ -22,6 +22,11 @@ Flight::route('/', function() {
     if (isset($_GET['code']) && !isset($_SESSION['prediction_token'])) {
         $token = $googleClient->fetchAccessTokenWithAuthCode($_GET['code']);
         $googleClient->setAccessToken($token);
+
+        if ($googleClient->isAccessTokenExpired()) {
+            unset($_SESSION['prediction_token']);
+        }
+
         $_SESSION['prediction_token'] = $token;
     }
 
@@ -46,7 +51,9 @@ Flight::route('/train', function() {
 	$googlePredictionInsert->setStorageDataLocation($_POST['fileName']); // A file in Cloud Storage, must be upload first
 	$result = $service->trainedmodels->insert(PROJECT_ID, $googlePredictionInsert);
 
-	var_dump($result);
+	$_SESSION['train_response'] = $result;
+
+    (new UrlService())->redirectToHome();
 });
 
 Flight::route('/predict', function() {
