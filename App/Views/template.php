@@ -77,10 +77,16 @@
 			    <div class="page-content">
 				    <div class="mdl-grid">
 					    <div class="mdl-cell mdl-cell--4-col">
-							<p>Training status: loading</p>
+							<h3>How to train?</h3>
+
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. At dolorum inventore itaque, nisi numquam quibusdam sit velit vitae? Consequatur dolore dolores ea enim ipsa minima necessitatibus nihil omnis quia voluptate.
+							</p>
 						</div>
 
 						<div class="mdl-cell mdl-cell--4-col">
+							<h3>Send training data</h3>
+
 							<form class="js-train">
 								<div class="mdl-textfield mdl-js-textfield">
 									<input class="mdl-textfield__input" type="text" id="fileName" name="fileName">
@@ -91,14 +97,29 @@
 							</form>
 						</div>
 
-						<div class="mdl-cell mdl-cell--4-col"></div>
+						<div class="mdl-cell mdl-cell--4-col">
+							<h3>Training status</h3>
+
+							<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-train-status">
+								Check Training status
+							</a>
+
+							<p class="js-not-started">Not started</p>
+							<p class="js-started">Loading...</p>
+						</div>
 					</div>
 			    </div>
 			</section>
 			<section class="mdl-layout__tab-panel" id="fixed-tab-3">
 			    <div class="page-content">
 					<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--4-col"></div>
+						<div class="mdl-cell mdl-cell--4-col">
+							<h3>How to predict?</h3>
+
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. At dolorum inventore itaque, nisi numquam quibusdam sit velit vitae? Consequatur dolore dolores ea enim ipsa minima necessitatibus nihil omnis quia voluptate.
+							</p>
+						</div>
 
 						<div class="mdl-cell mdl-cell--4-col">
 							<h3>Send prediction data</h3>
