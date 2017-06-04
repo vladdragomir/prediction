@@ -42,7 +42,7 @@
 			<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
 				<a href="#fixed-tab-1" class="mdl-layout__tab is-active js-connect-tab">Connect</a>
 				<a href="#fixed-tab-2" class="mdl-layout__tab js-train-tab">Train</a>
-				<a href="#fixed-tab-3" class="mdl-layout__tab">Predict</a>
+				<a href="#fixed-tab-3" class="mdl-layout__tab js-predict-tab">Predict</a>
 			</div>
 	  	</header>
 		<div class="mdl-layout__drawer">
@@ -100,17 +100,17 @@
 						<div class="mdl-cell mdl-cell--4-col">
 							<h3>Training status</h3>
 
+							<p class="js-not-started">Not started</p>
+							<p class="js-started">Loading...</p>
+
 							<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-train-status">
 								Check Training status
 							</a>
-
-							<p class="js-not-started">Not started</p>
-							<p class="js-started">Loading...</p>
 						</div>
 					</div>
 			    </div>
 			</section>
-			<section class="mdl-layout__tab-panel" id="fixed-tab-3">
+			<section class="mdl-layout__tab-panel js-predict-tab" id="fixed-tab-3">
 			    <div class="page-content">
 					<div class="mdl-grid">
 						<div class="mdl-cell mdl-cell--4-col">
