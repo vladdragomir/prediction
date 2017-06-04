@@ -6,7 +6,17 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+	<script src="/App/Callers/Predict.js"></script>
+	<script src="/App/Callers/Train.js"></script>
+	<script src="/App/Callers/State.js"></script>
+
+	<script>
+		var authenticated = '<?=isset($_SESSION['prediction_token'])?>';
+	</script>
 </head>
 <body>
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
@@ -30,8 +40,8 @@
 			</div>
 			<!-- Tabs -->
 			<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-				<a href="#fixed-tab-1" class="mdl-layout__tab is-active">Connect</a>
-				<a href="#fixed-tab-2" class="mdl-layout__tab">Train</a>
+				<a href="#fixed-tab-1" class="mdl-layout__tab is-active js-connect-tab">Connect</a>
+				<a href="#fixed-tab-2" class="mdl-layout__tab js-train-tab">Train</a>
 				<a href="#fixed-tab-3" class="mdl-layout__tab">Predict</a>
 			</div>
 	  	</header>
@@ -39,7 +49,7 @@
 			<span class="mdl-layout-title">Prediction</span>
 		</div>
 	  	<main class="mdl-layout__content">
-			<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+			<section class="mdl-layout__tab-panel is-active js-connect-tab" id="fixed-tab-1">
 				<div class="page-content">
 					<div class="mdl-grid">
 					    <div class="mdl-cell mdl-cell--2-col"></div>
@@ -63,7 +73,7 @@
 					</div>
 				</div>
 			</section>
-			<section class="mdl-layout__tab-panel" id="fixed-tab-2">
+			<section class="mdl-layout__tab-panel js-train-tab" id="fixed-tab-2">
 			    <div class="page-content">
 				    <div class="mdl-grid">
 					    <div class="mdl-cell mdl-cell--4-col">
@@ -71,23 +81,14 @@
 						</div>
 
 						<div class="mdl-cell mdl-cell--4-col">
-							<form action="/train" method="post">
+							<form class="js-train">
 								<div class="mdl-textfield mdl-js-textfield">
 									<input class="mdl-textfield__input" type="text" id="fileName" name="fileName">
 									<label class="mdl-textfield__label" for="fileName">Enter the file name</label>
 								</div>
-							</form>
 
-							<p>
-								<?php
-								if (isset($_SESSION['train_response'])) :
-								unset($_SESSION['train_response']);
-								?>
-									Training is in process.
-								<?php
-								endif;
-								?>
-							</p>
+								<input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" value="Train!">
+							</form>
 						</div>
 
 						<div class="mdl-cell mdl-cell--4-col"></div>
@@ -100,11 +101,13 @@
 						<div class="mdl-cell mdl-cell--4-col"></div>
 
 						<div class="mdl-cell mdl-cell--4-col">
-							<form action="/predict" method="post">
+							<form class="js-predict">
 								<div class="mdl-textfield mdl-js-textfield">
 									<input class="mdl-textfield__input" type="text" id="predictContent" name="predictContent">
 									<label class="mdl-textfield__label" for="predictContent">Predict this content</label>
 								</div>
+
+								<input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" value="Train!">
 							</form>
 						</div>
 
