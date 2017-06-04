@@ -51,7 +51,7 @@ Flight::route('/train', function() {
 	$googlePredictionInsert->setStorageDataLocation($_POST['fileName']); // A file in Cloud Storage, must be upload first
 	$result = $service->trainedmodels->insert(PROJECT_ID, $googlePredictionInsert);
 
-	return $result;
+	var_dump($result);
 });
 
 Flight::route('/predict', function() {
@@ -67,7 +67,7 @@ Flight::route('/predict', function() {
 	$input->setInput($predictionData);
 	$hostedModels = $googlePredictionService->trainedmodels->predict(PROJECT_ID, PROJECT_ID, $input);
 
-	var_dump($hostedModels);
+	echo json_encode($hostedModels['outputMulti']);
 });
 
 Flight::start();

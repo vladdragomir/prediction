@@ -101,6 +101,8 @@
 						<div class="mdl-cell mdl-cell--4-col"></div>
 
 						<div class="mdl-cell mdl-cell--4-col">
+							<h3>Send prediction data</h3>
+
 							<form class="js-predict">
 								<div class="mdl-textfield mdl-js-textfield">
 									<input class="mdl-textfield__input" type="text" id="predictContent" name="predictContent">
@@ -111,7 +113,11 @@
 							</form>
 						</div>
 
-						<div class="mdl-cell mdl-cell--4-col"></div>
+						<div class="mdl-cell mdl-cell--4-col">
+							<h3>Prediction results</h3>
+
+							<div class="prediction-results"></div>
+						</div>
 					</div>
 			    </div>
 			</section>
