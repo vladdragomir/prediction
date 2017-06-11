@@ -107,6 +107,16 @@
 							<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-train-status">
 								Check Training status
 							</a>
+
+							<h3>Analyze trained model</h3>
+
+							<p class="js-training-required">Please train your model and then analyze it.</p>
+
+							<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-analyze">
+								Analyze trained model
+							</a>
+
+							<div class="js-analyze-container"></div>
 						</div>
 					</div>
 			    </div>

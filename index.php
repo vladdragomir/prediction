@@ -68,6 +68,21 @@ Flight::route('/train-status', function() {
     echo $res->getBody();
 });
 
+Flight::route('/analyze', function() {
+    $googleClient = (new GoogleClientService())->getGoogleClientInstance();
+    $httpClient = $googleClient->authorize();
+    $requestUrl = 'https://www.googleapis.com/prediction/v1.6/projects/'
+        . PROJECT_ID
+        . '/trainedmodels/'
+        . PROJECT_ID
+        . '/analyze'
+        . '?access_token='
+        . $_SESSION['prediction_token']['access_token'];
+    $res = $httpClient->request('GET', $requestUrl);
+
+    echo $res->getBody();
+});
+
 Flight::route('/predict', function() {
   	$googleClient = (new GoogleClientService())->getGoogleClientInstance();
   	$googleClient->setAccessToken($_SESSION['prediction_token']);
