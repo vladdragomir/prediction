@@ -100,8 +100,9 @@
 						<div class="mdl-cell mdl-cell--4-col">
 							<h3>Training status</h3>
 
-							<p class="js-not-started">Not started</p>
-							<p class="js-started">Loading...</p>
+							<p class="js-not-started">Not started.</p>
+							<p class="js-started">Training is in progress.</p>
+							<p class="js-done">Training completed!</p>
 
 							<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-train-status">
 								Check Training status

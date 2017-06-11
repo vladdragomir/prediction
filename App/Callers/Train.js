@@ -1,5 +1,7 @@
 $(document).ready(function() {
 	$('.js-started').hide();
+	$('.js-done').hide();
+	$('.js-train-status').hide();
 
 	$('.js-train').submit(function(e) {
 		e.preventDefault();
@@ -11,15 +13,15 @@ $(document).ready(function() {
 				fileName: $('#fileName').val()
 			}
 		})
-			.done(function(response) {
-				console.log(response);
-
+			.done(function() {
 				$('.js-not-started').hide();
 				$('.js-started').show();
+				$('.js-train-status').show();
 			})
 			.fail(function() {
 				$('.js-not-started').show();
 				$('.js-started').hide();
+				$('.js-train-status').hide();
 			});
 	});
 
@@ -28,13 +30,15 @@ $(document).ready(function() {
 
 		$.ajax({
 			url: '/train-status',
-			type: 'GET'
+			type: 'GET',
+			dataType: 'json'
 		})
 			.done(function(response) {
-				console.log(response);
-			})
-			.fail(function(response) {
-				console.log(response);
+				if (response.trainingStatus === 'DONE') {
+					$('.js-train-status').hide();
+					$('.js-started').hide();
+					$('.js-done').show();
+				}
 			});
 	});
 });
